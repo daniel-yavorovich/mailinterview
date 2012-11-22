@@ -1,9 +1,4 @@
-mailinterview
-=============
-
-Mail Interview - is a simpl
-
-Djajachat
+Mail Interview
 ==================================
 Mail Interview - this is a simple service for interviews by email.
 The project is written in Django and uses Celery distribute messages.
