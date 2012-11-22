@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en"> <!--<![endif]-->
+<head>
+
+    <!-- Basic Page Needs
+  ================================================== -->
+    <meta charset="utf-8">
+    <title>Mail Interview{% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Mobile Specific Metas
+  ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+  ================================================== -->
+    <link rel="stylesheet" href="http://{{ default_domain }}/static/stylesheets/base.css">
+    <link rel="stylesheet" href="http://{{ default_domain }}/static/stylesheets/skeleton.css">
+    <link rel="stylesheet" href="http://{{ default_domain }}/static/stylesheets/layout.css">
+    <link rel="stylesheet" href="http://{{ default_domain }}/static/stylesheets/custom.css">
+
+    <!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+    <!-- Favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="http://{{ default_domain }}/static/images/favicon.ico">
+    {% block extraheads %}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <div class="sixteen columns">
+        <h1 class="remove-bottom" style="margin-top: 40px"><a href="/">{% block h1 %}Mail Interview{% endblock %}</a></h1>
+        <h4>{% block h4 %}{% endblock %}</h4>
+        <hr/>
+    </div>
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

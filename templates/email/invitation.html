@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} - {{ poll.title }} {% endblock %}
+
+{% block h1 %}{{ poll.title }}{% endblock %}
+{% block h4 %}{{ poll.description }}{% endblock %}
+
+{% block content %}
+    <div class="sixteen columns">
+        <div style="word-wrap: break-word;">
+
+            <ul class="variants_list">
+                {% for var in poll.variants.all %}
+                    <li>
+                        <a href="http://{{ default_domain }}/vote/{{ poll.unique_id }}/{{ client.pk }}/{{ var.pk }}">{{ var.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <p>
+                {{ poll.author_name }} decided to conduct a survey of its customers.
+                If you have received this email by accident - please ignore this message or <a href="mailto:support@hosting4django.net">let us know</a>.
+                Otherwise, we ask you to vote on the subject matter, which is described below.
+                To vote just click on the option that you like.
+            </p>
+            <p>This poll created by <a href="http://{{ default_domain }}/">Mailer Interview</a> software.</p>
+        </div>
+    </div>
+{% endblock %}

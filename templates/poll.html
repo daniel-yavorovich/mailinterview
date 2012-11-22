@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %} - {{ poll.title }} {% endblock %}
+
+{% block h1 %}Mail Interview{% endblock %}
+
+{% block extraheads %}
+    <script type="text/javascript" src="/static/js/jquery-1.8.3.min.js"></script>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1.0', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+                {% for var in variants.all %}
+                    ['{{ var.name }}', {{ var.votes_count }}],
+                {% endfor %}
+            ]);
+
+            // Set chart options
+            var options = {'title':'{{ poll.title }}',
+                'width':500,
+                'height':500};
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+        function stop_interview() {
+            if (confirm("Stop Interview now?")) {
+
+                $.get('{% url stop_interview poll.unique_id poll.secret_key %}', function(data) {
+                    if (data == "OK") {
+                        $("#is_done").css('display', 'block');
+                        $("#in_progress").css('display', 'none');
+                    }
+                });
+
+                var xmlHttp = null;
+
+                xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", "{% url stop_interview poll.unique_id poll.secret_key %}", false );
+                xmlHttp.send( null );
+                if (xmlHttp.responseText == "OK") {
+
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    {% if not poll.is_sent %}
+        <div class="sixteen columns">
+            <h3>Your poll &#8221;{{ poll.title }}&#8222; created!</h3>
+            <br>
+            <p>Your interview has been successfully created in the moment we are sending messages to users.</p>
+            <p>Save a link to this page. After the messages are sent, you can see the results of the survey.</p>
+        </div>
+    {% else %}
+        <div class="sixteen columns">
+            <div class="seven columns alpha">
+                <strong>Title:</strong>
+                <p>{{ poll.title }}</p>
+                <br>
+                <strong>Description:</strong>
+                <p>{{ poll.description }}</p>
+                <strong>Variants:</strong>
+                <ul class="variants_list">
+                    {% for var in variants.all %}
+                        <li>{{ var.name }} ({{ var.votes_count }})</li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <strong>Clients count:</strong>
+                <ul class="variants_list">
+                    <li>{{ poll.clients.count }} members have been invited</li>
+                    <li>{{ voted_users.count }} members voted</li>
+                    <li>{{ signed_users.count }} people signed up to receive the results</li>
+                </ul>
+                <br>
+                <strong>Poll status</strong>
+                <div id="is_done" style="display: {% if poll.is_done %}block{% else %}none{% endif %};">
+                    <p>
+                        Your vote is stopped and you can see the results in the chart on the right.
+                    </p>
+                </div>
+                <div id="in_progress" style="display: {% if not poll.is_done %}block{% else %}none{% endif %};">
+                    <p>
+                        We sent invitations to all participants vote poll.
+                        The graph on the right you can watch their activity.
+                        When you click "Stop interview", the opportunity to vote will be stopped,
+                        and signed by the users will get the results of the poll.
+                    </p>
+                    <button onclick="stop_interview();">Stop interview</button>
+                </div>
+            </div>
+            <div class="seven columns omega">
+                <div id="chart_div"></div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %} - {{ poll.title }} {% endblock %}
+
+{% block h1 %}{{ poll.title }}{% endblock %}
+{% block h3 %}{{ poll.description }}{% endblock %}
+
+{% block extraheads %}
+    <script type="text/javascript" src="/static/js/jquery-1.8.3.min.js"></script>
+    <script>
+        function signup_results() {
+            if (confirm("Sign up to receive the results of the poll?")) {
+                $.get('{% url signup_results poll.unique_id client.unique_id %}', function(data) {
+                    if (data == "OK") {
+                        $("#signup_block").html("<p>Thank you! After the vote you will get the results on the E-mail.</p>");
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="sixteen columns">
+        <h3>{{ message }}</h3>
+        <div id="signup_block">
+            {% if client.is_need_res %}
+                <p>After the vote you will get the results on the E-mail.</p>
+            {% else %}
+                <button onclick="signup_results();">I want get the results of voting</button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

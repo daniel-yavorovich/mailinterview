@@ -1,0 +1,8 @@
+.errorlist {
+    color: #b22222;
+}
+
+.variants_list {
+    list-style: circle;
+    padding-left: 30px;
+}
