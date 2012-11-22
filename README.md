@@ -27,6 +27,6 @@ Requirements
 * Celery: http://celeryproject.org/
 * South: http://south.aeracode.org/
 
-Example project
+Example site
 -----------
 http://mailinterview.com/
