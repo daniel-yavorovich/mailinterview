@@ -26,3 +26,7 @@ Requirements
 * jQuery: http://jquery.com/
 * Celery: http://celeryproject.org/
 * South: http://south.aeracode.org/
+
+Example project
+-----------
+http://mailinterview.com/
